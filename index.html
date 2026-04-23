@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Craft — kaleb.one</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9B%A0%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Georgia:wght@400;600;700&display=swap');
+
+:root {
+  --bg: #0a0e17;
+  --surface: rgba(255,255,255,0.04);
+  --surface-2: rgba(255,255,255,0.07);
+  --surface-3: rgba(255,255,255,0.10);
+  --border: rgba(255,255,255,0.08);
+  --border-accent: rgba(245,158,11,0.3);
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --text-muted: #64748b;
+  --accent: #f59e0b;
+  --accent-dim: #d97706;
+  --accent-glow: rgba(245,158,11,0.15);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.3);
+  --font-sans: 'Inter', -apple-system, sans-serif;
+  --font-serif: 'Georgia', 'Times New Roman', serif;
+  --blur: 20px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.bg-ambient {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 0%, rgba(245,158,11,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 90%, rgba(217,119,6,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(245,158,11,0.03) 0%, transparent 70%);
+}
+
+.container {
+  position: relative; z-index: 1;
+  max-width: 900px; margin: 0 auto; padding: 32px 24px;
+}
+
+/* Hero */
+.hero {
+  text-align: center; padding: 48px 24px 32px; margin-bottom: 40px;
+}
+.hero-icon { font-size: 48px; margin-bottom: 16px; }
+.hero-title {
+  font-family: var(--font-serif); font-size: 42px; font-weight: 700;
+  line-height: 1.2; margin-bottom: 8px;
+  background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero-sub { font-size: 16px; color: var(--text-dim); font-weight: 400; max-width: 600px; margin: 0 auto; }
+.hero-count {
+  display: inline-block; margin-top: 12px; padding: 6px 16px;
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 20px;
+  font-size: 13px; color: var(--accent); font-weight: 500;
+}
+
+/* Glass */
+.glass {
+  background: var(--surface);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: border-color 0.3s, background 0.3s;
+}
+
+/* Article Cards */
+.articles { display: flex; flex-direction: column; gap: 16px; }
+
+.article-card {
+  background: var(--surface);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.3s, background 0.3s;
+  cursor: pointer;
+}
+.article-card:hover { border-color: var(--border-accent); }
+.article-card.active { border-color: var(--accent); }
+
+.article-header {
+  padding: 20px 24px;
+  display: flex; align-items: flex-start; gap: 16px;
+}
+.article-emoji {
+  font-size: 28px; width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--surface-3); border-radius: 12px;
+  flex-shrink: 0;
+}
+.article-meta { flex: 1; }
+.article-title {
+  font-family: var(--font-serif); font-size: 20px; font-weight: 600;
+  margin-bottom: 4px; color: var(--text);
+}
+.article-excerpt {
+  font-size: 14px; color: var(--text-dim); line-height: 1.5;
+}
+.article-tags {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;
+}
+.tag {
+  display: inline-block; padding: 2px 10px; border-radius: 20px;
+  font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+  background: var(--accent-glow); color: var(--accent);
+}
+.tag-infra { background: rgba(59,130,246,0.12); color: #60a5fa; }
+.tag-cicd { background: rgba(16,185,129,0.12); color: #34d399; }
+.tag-ssg { background: rgba(168,85,247,0.12); color: #a78bfa; }
+.tag-d1 { background: rgba(236,72,153,0.12); color: #ec4899; }
+.tag-design { background: rgba(245,158,11,0.12); color: #f59e0b; }
+.tag-agent { background: rgba(6,182,212,0.12); color: #06b6d4; }
+.tag-pattern { background: rgba(245,158,11,0.12); color: #d97706; }
+
+.article-chevron {
+  font-size: 18px; color: var(--text-muted);
+  transition: transform 0.3s;
+  flex-shrink: 0; margin-top: 12px;
+}
+.article-card.active .article-chevron { transform: rotate(180deg); color: var(--accent); }
+
+.article-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s ease;
+  border-top: 0 solid var(--border);
+}
+.article-card.active .article-body {
+  max-height: 5000px; padding: 0 24px 24px;
+  border-top: 1px solid var(--border);
+}
+
+.article-body h2 {
+  font-family: var(--font-serif); font-size: 22px; font-weight: 600;
+  margin: 24px 0 12px; padding-top: 16px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+}
+.article-body h2:first-child { margin-top: 0; border-top: none; padding-top: 0; }
+
+.article-body h3 {
+  font-size: 16px; font-weight: 600; color: var(--accent-dim);
+  margin: 16px 0 8px;
+}
+
+.article-body p { font-size: 15px; line-height: 1.7; color: var(--text-dim); margin-bottom: 12px; }
+.article-body ul, .article-body ol { margin: 8px 0 16px 24px; }
+.article-body li { font-size: 15px; line-height: 1.7; color: var(--text-dim); margin-bottom: 4px; }
+
+.article-body pre {
+  background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 16px; margin: 12px 0; overflow-x: auto;
+}
+.article-body code {
+  font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px;
+  color: var(--accent);
+}
+.article-body pre code { color: var(--text-dim); }
+
+.article-body strong { color: var(--text); font-weight: 600; }
+.article-body em { color: var(--accent); font-style: italic; }
+
+.article-body a { color: var(--accent); text-decoration: none; }
+.article-body a:hover { text-decoration: underline; }
+
+.article-body code:not(pre code) {
+  background: var(--surface-3); padding: 2px 6px; border-radius: 4px;
+  font-size: 13px;
+}
+
+/* Tables */
+.article-body table {
+  width: 100%; border-collapse: collapse; margin: 12px 0 16px;
+  font-size: 14px;
+}
+.article-body th {
+  text-align: left; padding: 10px 12px; font-weight: 600;
+  border-bottom: 2px solid var(--border); color: var(--text);
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.article-body td {
+  padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text-dim);
+}
+.article-body tr:hover td { background: var(--surface-2); }
+
+/* TOC */
+.article-toc {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.toc-link {
+  font-size: 12px; padding: 4px 10px; border-radius: 12px;
+  background: var(--surface-2); color: var(--text-muted); cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.toc-link:hover { background: var(--accent-glow); color: var(--accent); }
+
+/* Back link */
+.back-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 14px; color: var(--text-muted); text-decoration: none;
+  margin-bottom: 24px; transition: color 0.2s;
+}
+.back-link:hover { color: var(--accent); }
+
+/* Footer */
+.footer {
+  text-align: center; padding: 32px 0 16px;
+  font-size: 12px; color: var(--text-muted);
+}
+.footer a { color: var(--accent); text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeIn 0.5s ease forwards; }
+
+/* Search */
+.search-bar {
+  position: relative; margin-bottom: 24px;
+}
+.search-input {
+  width: 100%; padding: 14px 20px 14px 48px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  color: var(--text); font-size: 15px; font-family: var(--font-sans);
+  outline: none; transition: border-color 0.3s;
+}
+.search-input::placeholder { color: var(--text-muted); }
+.search-input:focus { border-color: var(--accent); }
+.search-icon {
+  position: absolute; left: 18px; top: 50%; transform: translateY(-50%);
+  font-size: 18px; color: var(--text-muted);
+}
+
+/* Category filters */
+.categories {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;
+  justify-content: center;
+}
+.cat-btn {
+  padding: 6px 16px; border-radius: 20px; font-size: 13px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+  font-family: var(--font-sans);
+}
+.cat-btn:hover { border-color: var(--border-accent); color: var(--text); }
+.cat-btn.active { background: var(--accent-glow); border-color: var(--accent); color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="bg-ambient"></div>
+
+<div class="container" id="app"></div>
+
+<script>
+// ─── Article Data ─────────────────────────────────────────────────────────
+const ARTICLES = __CRAFT_DATA__;
+const GENERATED = "__GENERATED__";
+
+// ─── Category Map ────────────────────────────────────────────────────────
+const TAG_CATEGORIES = {
+  'cloudflare': 'Infrastructure', 'infrastructure': 'Infrastructure',
+  'cicd': 'CI/CD', 'github-actions': 'CI/CD',
+  'ssg': 'Parsing', 'markdown': 'Parsing', 'parsing': 'Parsing',
+  'd1': 'APIs & Data', 'access': 'APIs & Data', 'api': 'APIs & Data',
+  'design': 'Design', 'css': 'Design', 'aesthetic': 'Design',
+  'agents': 'Agents', 'mesh': 'Agents', 'architecture': 'Architecture', 'patterns': 'Architecture'
+};
+
+function getCategory(tags) {
+  for (const tag of tags) {
+    if (TAG_CATEGORIES[tag]) return TAG_CATEGORIES[tag];
+  }
+  return 'Other';
+}
+
+// ─── Render ───────────────────────────────────────────────────────────────
+let activeId = null;
+let filterCat = null;
+let searchQuery = '';
+
+function render() {
+  let filtered = ARTICLES;
+  if (filterCat) {
+    filtered = filtered.filter(a => getCategory(a.tags) === filterCat);
+  }
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    filtered = filtered.filter(a =>
+      a.title.toLowerCase().includes(q) ||
+      a.excerpt.toLowerCase().includes(q) ||
+      a.tags.some(t => t.toLowerCase().includes(q))
+    );
+  }
+
+  const categories = [...new Set(ARTICLES.map(a => getCategory(a.tags)))];
+
+  const html = `
+  <section class="hero fade-in">
+    <div class="hero-icon">🛠️</div>
+    <h1 class="hero-title">Craft</h1>
+    <p class="hero-sub">Operating procedures & hard-won knowledge from building the kaleb.one ecosystem</p>
+    <div class="hero-count">${ARTICLES.length} entries</div>
+  </section>
+
+  <div class="search-bar fade-in">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="search-input" id="search" placeholder="Search craft knowledge..." value="${searchQuery}" oninput="handleSearch(this.value)">
+  </div>
+
+  <div class="categories fade-in">
+    <button class="cat-btn ${!filterCat ? 'active' : ''}" onclick="filterCategory(null)">All</button>
+    ${categories.map(cat => `
+      <button class="cat-btn ${filterCat === cat ? 'active' : ''}" onclick="filterCategory('${cat}')">${cat}</button>
+    `).join('')}
+  </div>
+
+  <div class="articles">
+    ${filtered.length > 0 ? filtered.map(article => `
+      <div class="article-card ${activeId === article.slug ? 'active' : ''}" onclick="toggleArticle('${article.slug}')">
+        <div class="article-header">
+          <div class="article-emoji">${article.emoji || '📋'}</div>
+          <div class="article-meta">
+            <div class="article-title">${article.title}</div>
+            <div class="article-excerpt">${article.excerpt}</div>
+            <div class="article-tags">
+              ${article.tags.map(tag => {
+                const cssClass = ['cloudflare','infrastructure'].includes(tag) ? 'tag-infra' :
+                  ['cicd','github-actions'].includes(tag) ? 'tag-cicd' :
+                  ['ssg','markdown','parsing'].includes(tag) ? 'tag-ssg' :
+                  ['d1','access','api'].includes(tag) ? 'tag-d1' :
+                  ['design','css','aesthetic'].includes(tag) ? 'tag-design' :
+                  ['agents','mesh'].includes(tag) ? 'tag-agent' :
+                  ['architecture','patterns'].includes(tag) ? 'tag-pattern' : '';
+                return `<span class="tag ${cssClass}">${tag}</span>`;
+              }).join('')}
+            </div>
+          </div>
+          <div class="article-chevron">▼</div>
+        </div>
+        <div class="article-body" id="body-${article.slug}">
+          ${article.headings.length > 0 ? `
+            <div class="article-toc">
+              ${article.headings.map(h => `<span class="toc-link">${h}</span>`).join('')}
+            </div>
+          ` : ''}
+          ${article.body_html}
+        </div>
+      </div>
+    `).join('') : `
+      <div style="text-align:center;padding:48px;color:var(--text-muted)">
+        <div style="font-size:48px;margin-bottom:16px">🔍</div>
+        <div style="font-size:16px">No entries match your search</div>
+      </div>
+    `}
+  </div>
+
+  <div class="footer">
+    craft.kaleb.one · Distilled from ${ARTICLES.length} sessions of breaking things and fixing them · <a href="https://kaleb.one">← Hub</a>
+  </div>
+  `;
+
+  document.getElementById('app').innerHTML = html;
+
+  // Restore search focus
+  const searchEl = document.getElementById('search');
+  if (searchEl && searchQuery) {
+    searchEl.focus();
+    searchEl.setSelectionRange(searchQuery.length, searchQuery.length);
+  }
+}
+
+function toggleArticle(slug) {
+  if (activeId === slug) {
+    activeId = null;
+  } else {
+    activeId = slug;
+  }
+  render();
+  if (activeId) {
+    setTimeout(() => {
+      const el = document.getElementById('body-' + slug);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 100);
+  }
+}
+
+function filterCategory(cat) {
+  filterCat = cat;
+  activeId = null;
+  render();
+}
+
+function handleSearch(value) {
+  searchQuery = value;
+  activeId = null;
+  render();
+}
+
+// ─── Init ─────────────────────────────────────────────────────────────
+const data = typeof ARTICLES === 'string' ? JSON.parse(ARTICLES) : ARTICLES;
+ARTICLES = data;
+render();
+</script>
+</body>
+</html>
